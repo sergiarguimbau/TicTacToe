@@ -95,6 +95,7 @@ export default class App extends Component {
             <TouchableOpacity
               style={[styles.resetButton, styles.greenButton]}
               onPress={() => this.decreaseBoardSize()}
+              disabled={Object.values(moves).length > 0}
             >
               <Text style={styles.resetButtonText}>{'-'}</Text>
             </TouchableOpacity>
@@ -102,6 +103,7 @@ export default class App extends Component {
             <TouchableOpacity
               style={[styles.resetButton, styles.greenButton]} 
               onPress={() => this.increaseBoardSize()}
+              disabled={Object.values(moves).length > 0}
             >
               <Text style={styles.resetButtonText}>{'+'}</Text>
             </TouchableOpacity>
