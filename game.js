@@ -1,11 +1,8 @@
-export const BOARD_SIZE = 5
+const checkValue = (value, boardSize) => {
 
-const steps = [...Array(BOARD_SIZE).keys()];
+  const X_WIN = "♟".repeat(boardSize);
+  const O_WIN = "♙".repeat(boardSize);
 
-const X_WIN = "♟".repeat(BOARD_SIZE);
-const O_WIN = "♙".repeat(BOARD_SIZE);
-
-const checkValue = value => {
   if (value === X_WIN) {
     return "X_WIN";
   } else if (value === O_WIN) {
@@ -13,12 +10,15 @@ const checkValue = value => {
   }
 };
 
-export const getGameStatus = moves => {
+export const getGameStatus = (moves, boardSize) => {
+
+  const steps = [...Array(boardSize).keys()];
+
   let gameStatus;
   // Check horizontal
   steps.find((step, i) => {
-    const value = steps.map(number => `${moves[step * BOARD_SIZE + number]}`).join('');
-    gameStatus = checkValue(value);
+    const value = steps.map(number => `${moves[step * boardSize + number]}`).join('');
+    gameStatus = checkValue(value, boardSize);
     return gameStatus !== undefined;
   });
 
@@ -26,23 +26,23 @@ export const getGameStatus = moves => {
 
   // Check vertical
   steps.find(row => {
-    const value = steps.map(number => `${moves[row + BOARD_SIZE * number]}`).join('');
-    gameStatus = checkValue(value);
+    const value = steps.map(number => `${moves[row + boardSize * number]}`).join('');
+    gameStatus = checkValue(value, boardSize);
     return gameStatus !== undefined;
   });
 
   if (gameStatus) return gameStatus;
 
   // Check diagonal
-  const value1 = steps.map(number => `${moves[number + BOARD_SIZE * number]}`).join('');
-  gameStatus = checkValue(value1);
+  const value1 = steps.map(number => `${moves[number + boardSize * number]}`).join('');
+  gameStatus = checkValue(value1, boardSize);
   if (gameStatus) return gameStatus;
 
-  const value2 = steps.map(number => `${moves[(BOARD_SIZE - 1) * (1 + number)]}`).join('');
-  gameStatus = checkValue(value2);
+  const value2 = steps.map(number => `${moves[(boardSize - 1) * (1 + number)]}`).join('');
+  gameStatus = checkValue(value2, boardSize);
   if (gameStatus) return gameStatus;
 
-  if (Object.values(moves).length === BOARD_SIZE*BOARD_SIZE && !gameStatus) return "DRAW";
+  if (Object.values(moves).length === boardSize * boardSize && !gameStatus) return "DRAW";
 
   return gameStatus;
 };

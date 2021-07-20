@@ -9,16 +9,16 @@ import {
   AsyncStorage
 } from "react-native";
 import WinOverlay from "./win_overlay";
-import { getGameStatus, BOARD_SIZE } from "./game";
+import { getGameStatus } from "./game";
 import ScaleIn from "./scalein";
-
-const squares = [...Array(BOARD_SIZE * BOARD_SIZE).keys()];
 
 export default class App extends Component {
   state = {
     user: "♟",
-    moves: {}
+    moves: {},
+    boardSize: 5,
   };
+
   async componentDidMount() {
     const values = await AsyncStorage.multiGet(["XWins", "OWins"]);
     this.setState({
@@ -30,6 +30,18 @@ export default class App extends Component {
   updateStorage = (XWins, OWins) => {
     AsyncStorage.multiSet([["XWins", `${XWins}`], ["OWins", `${OWins}`]]);
   };
+
+  increaseBoardSize = () => {
+    this.setState({
+      boardSize: this.state.boardSize + 1,
+    });
+  }
+
+  decreaseBoardSize = () => {
+    this.setState({
+      boardSize: this.state.boardSize - 1,
+    });
+  }
 
   handleRestart = () => {
     this.setState({
@@ -51,7 +63,7 @@ export default class App extends Component {
     this.setState(
       state => {
         const moves = { ...state.moves, [index]: state.user };
-        const gameStatus = getGameStatus(moves);
+        const gameStatus = getGameStatus(moves, state.boardSize);
 
         return {
           moves,
@@ -69,16 +81,31 @@ export default class App extends Component {
     );
   };
   render() {
-    const { moves, user, gameStatus } = this.state;
+    const { moves, user, gameStatus, boardSize } = this.state;
     const { width } = Dimensions.get("window");
 
-    const marginHorizontal = 4;
-    const squareSize = width / BOARD_SIZE - marginHorizontal;
+    const squareSize = width / boardSize;
+    const squares = [...Array(boardSize * boardSize).keys()];
 
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.turn}>{user}{' Turn'}</Text>
+          <View style={styles.resize}>
+            <TouchableOpacity
+              style={[styles.resetButton, styles.greenButton]}
+              onPress={() => this.decreaseBoardSize()}
+            >
+              <Text style={styles.resetButtonText}>{'-'}</Text>
+            </TouchableOpacity>
+            <Text style={styles.turn}>{boardSize}{'x'}{boardSize}</Text>
+            <TouchableOpacity
+              style={[styles.resetButton, styles.greenButton]} 
+              onPress={() => this.increaseBoardSize()}
+            >
+              <Text style={styles.resetButtonText}>{'+'}</Text>
+            </TouchableOpacity>
+          </View>   
         </View>
         <View style={styles.content}>
           <View style={styles.board}>
@@ -135,6 +162,13 @@ const styles = StyleSheet.create({
   turn: {
     fontSize: 24
   },
+  resize: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-around', 
+    width: '70%', 
+    marginTop: 24
+  },
   board: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -166,6 +200,11 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     alignItems: "center",
     justifyContent: "center"
+  },
+  greenButton: {
+    backgroundColor: 'green', 
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
   resetButtonText: {
     color: "#FFF",
