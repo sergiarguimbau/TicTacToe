@@ -2,6 +2,37 @@
 
 A beginner friendly introduction to React Native. We'll explore laying out elements in React Native and adding some simple styling. Using Animated we'll create a simple animation for each move. Using AsyncStorage we'll save off X and O wins. Finally we'll convert the App class to take advantage of the new hooks in React.
 
+## Fork Objectives
+
+- Replace circle with white pawn
+- Replace cross with black pawn
+- Extend the board to 5x5
+- Make the board resizeable
+
+## How to run
+
+This React Native project runs with Expo. It uses Expo V33.0.0 so it is recommended to use Expo CLI V4.1.3
+
+### Install dependencies
+```
+yarn install
+```
+
+### Run Expo on Android
+```
+yarn android
+```
+
+### Run Expo on iOS
+```
+yarn ios
+```
+
+### Run Expo on web
+```
+yarn web
+```
+
 ## Lessons
 
 ### Create The Game Board
