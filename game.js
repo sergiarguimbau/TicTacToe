@@ -1,5 +1,5 @@
-const X_WIN = "XXX";
-const O_WIN = "OOO";
+const X_WIN = "♟♟♟";
+const O_WIN = "♙♙♙";
 
 const steps = [0, 1, 2];
 

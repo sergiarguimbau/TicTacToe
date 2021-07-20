@@ -16,7 +16,7 @@ const squares = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 export default class App extends Component {
   state = {
-    user: "X",
+    user: "♟",
     moves: {}
   };
   async componentDidMount() {
@@ -34,7 +34,7 @@ export default class App extends Component {
   handleRestart = () => {
     this.setState({
       moves: {},
-      user: "X",
+      user: "♟",
       gameStatus: undefined
     });
   };
@@ -55,7 +55,7 @@ export default class App extends Component {
 
         return {
           moves,
-          user: state.user === "X" ? "O" : "X",
+          user: state.user === "♟" ? "♙" : "♟",
           gameStatus,
           XWins: gameStatus === "X_WIN" ? (state.XWins += 1) : state.XWins,
           OWins: gameStatus == "O_WIN" ? (state.OWins += 1) : state.OWins
@@ -77,7 +77,7 @@ export default class App extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.turn}>{user} Turn</Text>
+          <Text style={styles.turn}>{user}{' Turn'}</Text>
         </View>
         <View style={styles.content}>
           <View style={styles.board}>
@@ -100,11 +100,11 @@ export default class App extends Component {
           </View>
         </View>
         <View style={styles.footer}>
-          <Text style={styles.winValue}>{this.state.XWins} X Wins</Text>
+          <Text style={styles.winValue}>{this.state.XWins}{' ♟ Wins'}</Text>
           <TouchableOpacity style={styles.resetButton} onPress={this.handleReset}>
-            <Text style={styles.resetButtonText}>Reset</Text>
+            <Text style={styles.resetButtonText}>{'Reset'}</Text>
           </TouchableOpacity>
-          <Text style={styles.winValue}>{this.state.OWins} O Wins</Text>
+          <Text style={styles.winValue}>{this.state.OWins}{' ♙ Wins'}</Text>
         </View>
         {!!gameStatus && <WinOverlay value={gameStatus} onRestart={this.handleRestart} />}
       </SafeAreaView>
