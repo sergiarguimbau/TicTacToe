@@ -9,9 +9,8 @@ import {
   AsyncStorage
 } from "react-native";
 import WinOverlay from "./win_overlay";
-import { getGameStatus } from "./game";
+import { getGameStatus, BOARD_SIZE } from "./game";
 import ScaleIn from "./scalein";
-import { BOARD_SIZE } from "./game"
 
 const squares = [...Array(BOARD_SIZE * BOARD_SIZE).keys()];
 

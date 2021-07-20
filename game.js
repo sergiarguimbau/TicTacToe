@@ -1,4 +1,5 @@
 export const BOARD_SIZE = 5
+
 const steps = [...Array(BOARD_SIZE).keys()];
 
 const X_WIN = "♟".repeat(BOARD_SIZE);
@@ -16,7 +17,8 @@ export const getGameStatus = moves => {
   let gameStatus;
   // Check horizontal
   steps.find((step, i) => {
-    gameStatus = checkValue(`${moves[step * BOARD_SIZE + 0]}${moves[step * BOARD_SIZE + 1]}${moves[step * BOARD_SIZE + 2]}${moves[step * BOARD_SIZE + 3]}${moves[step * BOARD_SIZE + 4]}`);
+    const value = steps.map(number => `${moves[step * BOARD_SIZE + number]}`).join('');
+    gameStatus = checkValue(value);
     return gameStatus !== undefined;
   });
 
@@ -24,17 +26,20 @@ export const getGameStatus = moves => {
 
   // Check vertical
   steps.find(row => {
-    gameStatus = checkValue(`${moves[row + BOARD_SIZE * 0]}${moves[row + BOARD_SIZE * 1]}${moves[row + BOARD_SIZE * 2]}${moves[row + BOARD_SIZE * 3]}${moves[row + BOARD_SIZE * 4]}`);
+    const value = steps.map(number => `${moves[row + BOARD_SIZE * number]}`).join('');
+    gameStatus = checkValue(value);
     return gameStatus !== undefined;
   });
 
   if (gameStatus) return gameStatus;
 
   // Check diagonal
-  gameStatus = checkValue(`${moves[0 + BOARD_SIZE * 0]}${moves[1 + BOARD_SIZE * 1]}${moves[2 + BOARD_SIZE * 2]}${moves[3 + BOARD_SIZE * 3]}${moves[4 + BOARD_SIZE * 4]}`);
+  const value1 = steps.map(number => `${moves[number + BOARD_SIZE * number]}`).join('');
+  gameStatus = checkValue(value1);
   if (gameStatus) return gameStatus;
 
-  gameStatus = checkValue(`${moves[(BOARD_SIZE - 1) * 1]}${moves[(BOARD_SIZE - 1) * 2]}${moves[(BOARD_SIZE - 1) * 3]}${moves[(BOARD_SIZE - 1) * 4]}${moves[(BOARD_SIZE - 1) * 5]}`);
+  const value2 = steps.map(number => `${moves[(BOARD_SIZE - 1) * (1 + number)]}`).join('');
+  gameStatus = checkValue(value2);
   if (gameStatus) return gameStatus;
 
   if (Object.values(moves).length === BOARD_SIZE*BOARD_SIZE && !gameStatus) return "DRAW";
