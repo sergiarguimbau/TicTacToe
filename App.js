@@ -11,8 +11,9 @@ import {
 import WinOverlay from "./win_overlay";
 import { getGameStatus } from "./game";
 import ScaleIn from "./scalein";
+import { BOARD_SIZE } from "./game"
 
-const squares = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const squares = [...Array(BOARD_SIZE * BOARD_SIZE).keys()];
 
 export default class App extends Component {
   state = {
@@ -72,7 +73,8 @@ export default class App extends Component {
     const { moves, user, gameStatus } = this.state;
     const { width } = Dimensions.get("window");
 
-    const squareSize = width / 3 - 4;
+    const marginHorizontal = 4;
+    const squareSize = width / BOARD_SIZE - marginHorizontal;
 
     return (
       <SafeAreaView style={styles.container}>

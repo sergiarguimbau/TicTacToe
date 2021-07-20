@@ -1,7 +1,8 @@
 const X_WIN = "♟♟♟";
 const O_WIN = "♙♙♙";
 
-const steps = [0, 1, 2];
+export const BOARD_SIZE = 5
+const steps = [...Array(BOARD_SIZE).keys()];
 
 const checkValue = value => {
   if (value === X_WIN) {
@@ -36,7 +37,7 @@ export const getGameStatus = moves => {
   gameStatus = checkValue(`${moves[2]}${moves[4]}${moves[6]}`);
   if (gameStatus) return gameStatus;
 
-  if (Object.values(moves).length === 9 && !gameStatus) return "DRAW";
+  if (Object.values(moves).length === BOARD_SIZE*BOARD_SIZE && !gameStatus) return "DRAW";
 
   return gameStatus;
 };
