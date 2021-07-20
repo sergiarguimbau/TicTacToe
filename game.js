@@ -1,9 +1,8 @@
-const X_WIN = "XXX";
-const O_WIN = "OOO";
+const checkValue = (value, boardSize) => {
 
-const steps = [0, 1, 2];
+  const X_WIN = "♟".repeat(boardSize);
+  const O_WIN = "♙".repeat(boardSize);
 
-const checkValue = value => {
   if (value === X_WIN) {
     return "X_WIN";
   } else if (value === O_WIN) {
@@ -11,11 +10,15 @@ const checkValue = value => {
   }
 };
 
-export const getGameStatus = moves => {
+export const getGameStatus = (moves, boardSize) => {
+
+  const steps = [...Array(boardSize).keys()];
+
   let gameStatus;
   // Check horizontal
   steps.find((step, i) => {
-    gameStatus = checkValue(`${moves[step * 3]}${moves[step * 3 + 1]}${moves[step * 3 + 2]}`);
+    const value = steps.map(number => `${moves[step * boardSize + number]}`).join('');
+    gameStatus = checkValue(value, boardSize);
     return gameStatus !== undefined;
   });
 
@@ -23,20 +26,23 @@ export const getGameStatus = moves => {
 
   // Check vertical
   steps.find(row => {
-    gameStatus = checkValue(`${moves[row]}${moves[row + 3]}${moves[row + 6]}`);
+    const value = steps.map(number => `${moves[row + boardSize * number]}`).join('');
+    gameStatus = checkValue(value, boardSize);
     return gameStatus !== undefined;
   });
 
   if (gameStatus) return gameStatus;
 
   // Check diagonal
-  gameStatus = checkValue(`${moves[0]}${moves[4]}${moves[8]}`);
+  const value1 = steps.map(number => `${moves[number + boardSize * number]}`).join('');
+  gameStatus = checkValue(value1, boardSize);
   if (gameStatus) return gameStatus;
 
-  gameStatus = checkValue(`${moves[2]}${moves[4]}${moves[6]}`);
+  const value2 = steps.map(number => `${moves[(boardSize - 1) * (1 + number)]}`).join('');
+  gameStatus = checkValue(value2, boardSize);
   if (gameStatus) return gameStatus;
 
-  if (Object.values(moves).length === 9 && !gameStatus) return "DRAW";
+  if (Object.values(moves).length === boardSize * boardSize && !gameStatus) return "DRAW";
 
   return gameStatus;
 };

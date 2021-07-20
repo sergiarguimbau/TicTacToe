@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 const getMessage = value => {
   if (value === "X_WIN") {
-    return "X WINS!";
+    return "♟ WINS!";
   } else if (value === "O_WIN") {
-    return "O WINS!";
+    return "♙ WINS!";
   } else if (value === "DRAW") {
     return "It's a Draw";
   }
@@ -18,7 +18,7 @@ export default class WinOverlay extends Component {
         <Text style={styles.message}>{getMessage(this.props.value)}</Text>
         <View>
           <TouchableOpacity onPress={this.props.onRestart} style={styles.button}>
-            <Text style={styles.buttonText}>Restart</Text>
+            <Text style={styles.buttonText}>{'Restart'}</Text>
           </TouchableOpacity>
         </View>
       </View>
